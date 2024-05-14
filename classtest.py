@@ -35,7 +35,7 @@ stc.html(html_temp)
 @st.cache_data(ttl=3600,show_spinner="正在加載資料...")
 def load_data(url):
 	df=pd.read_pickle(url)
-	reyurn df
+	return df
 df_original = load_data('kbars_2330_2022-01-01-2022-11-18.pkl')
 #df_original = pd.read_pickle('kbars_2330_2022-01-01-2022-11-18.pkl')
 
