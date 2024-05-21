@@ -129,17 +129,28 @@ Date = start_date.strftime("%Y-%m-%d")
 #KBar = indicator_f_Lo2.KBar(Date,'time',2)
 #KBar = indicator_forKBar_short.KBar(Date,cycle_duration)    ## 設定cycle_duration可以改成你想要的 KBar 週期
 
-cycle_duration_options = [24, 48, 72]  # 可供選擇的時間長度，單位為小時
-selected_cycle_duration = st.selectbox('選擇一根 K 棒的時間長度(單位:小時, 一日=24小時)', options=cycle_duration_options, index=1, format_func=lambda x: f"{x} 小時", key="KBar_duration")
+#下拉式選單
+#cycle_duration_options = [24, 48, 72]  # 可供選擇的時間長度，單位為小時
+#selected_cycle_duration = st.selectbox('選擇一根 K 棒的時間長度(單位:小時, 一日=24小時)', options=cycle_duration_options, index=1, format_func=lambda x: f"{x} 小時", key="KBar_duration")
 
 # 將選擇的時間長度轉換為分鐘
-cycle_duration = selected_cycle_duration * 60
+#cycle_duration = selected_cycle_duration * 60
+
+# 使用選擇的時間長度來計算 KBar
+#KBar = indicator_forKBar_short.KBar(Date, cycle_duration)  ## 設定cycle_duration可以改成你想要的 KBar 週期
+
+
+#下拉式選擇小時、分鐘
+cycle_duration_value = st.number_input('輸入一根 K 棒的時間數值', value=24, key="KBar_duration_value")
+cycle_duration_unit = st.selectbox('選擇一根 K 棒的時間單位', options=['小時', '分鐘'], key="KBar_duration_unit")
+
+if cycle_duration_unit == '小時':
+    cycle_duration = cycle_duration_value * 60
+else:
+    cycle_duration = cycle_duration_value
 
 # 使用選擇的時間長度來計算 KBar
 KBar = indicator_forKBar_short.KBar(Date, cycle_duration)  ## 設定cycle_duration可以改成你想要的 KBar 週期
-
-
-
 
 
 
