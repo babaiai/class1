@@ -152,7 +152,11 @@ for i in range(KBar_dic['date'].size):
     low_price= KBar_dic['low'][i]
     high_price= KBar_dic['high'][i]
     qty =  KBar_dic['transaction'][i]
-    amount = KBar_dic['turnover'][i]
+    
+if i < length_of_capacity:
+    amount = KBar_dic['capacity'][i]
+else:
+    print("索引超出範圍")
     #tag=KBar.TimeAdd(time,price,qty,prod)
     tag=KBar.AddPrice(date, open_price, close_price, low_price, high_price, qty)
     
