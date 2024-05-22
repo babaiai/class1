@@ -62,7 +62,7 @@ end_date = datetime.datetime.strptime(end_date,'%Y-%m-%d')
 
 
 # 使用条件筛选选择时间区间的数据
-df = df_original[(df_original['time'] >= start_date) & (df_original['time'] <= end_date)]
+df = df_original[(df_original['date'] >= start_date) & (df_original['date'] <= end_date)]
 
 
 ###### (2) 轉化為字典 ######:
