@@ -61,7 +61,8 @@ end_date = st.text_input('選擇結束日期 (日期格式: 2024-05-21)',  datet
 start_date = datetime.datetime.combine(start_date, datetime.datetime.min.time())
 end_date = datetime.datetime.combine(end_date, datetime.datetime.min.time())
 # 使用条件筛选选择时间区间的数据
-df = df_original[(df_original['time'] >= start_date) & (df_original['time'] <= end_date)]
+mask = (df_original['time'] >= start_date) & (df_original['time'] <= end_date)
+df = df_original[mask]
 
 
 ###### (2) 轉化為字典 ######:
