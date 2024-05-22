@@ -89,10 +89,10 @@ KBar_dic['high']=np.array(KBar_high_list)
 KBar_close_list = list(KBar_dic['close'].values())
 KBar_dic['close']=np.array(KBar_close_list)
 
-KBar_volume_list = list(KBar_dic['volume'].values())
+KBar_volume_list = list(KBar_dic['change'].values())
 KBar_dic['volume']=np.array(KBar_volume_list)
 
-KBar_amount_list = list(KBar_dic['amount'].values())
+KBar_amount_list = list(KBar_dic['transaction'].values())
 KBar_dic['amount']=np.array(KBar_amount_list)
 
 
