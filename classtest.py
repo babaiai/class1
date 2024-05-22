@@ -22,8 +22,7 @@ html_temp = """
 		"""
 stc.html(html_temp)
 
-#df = pd.read_excel("kbars_台積電_1100701_1100708_2.xlsx")
-#df = pd.read_excel("kbars_2330_2022-07-01-2022-07-31.xlsx")
+
 
 # ## 讀取 excel 檔
 df_original = pd.read_excel("6560.xlsx")
@@ -64,32 +63,18 @@ df = df_original[(df_original['time'] >= start_date) & (df_original['time'] <= e
 
 ###### (2) 轉化為字典 ######:
 KBar_dic = df.to_dict()
-#type(KBar_dic)
-#KBar_dic.keys()  ## dict_keys(['time', 'open', 'low', 'high', 'close', 'volume', 'amount'])
-#KBar_dic['open']
-#type(KBar_dic['open'])  ## dict
-#KBar_dic['open'].values()
-#type(KBar_dic['open'].values())  ## dict_values
+
 KBar_open_list = list(KBar_dic['open'].values())
 KBar_dic['open']=np.array(KBar_open_list)
-#type(KBar_dic['open'])  ## numpy.ndarray
-#KBar_dic['open'].shape  ## (1596,)
-#KBar_dic['open'].size   ##  1596
+
 
 KBar_dic['product'] = np.repeat('tsmc', KBar_dic['open'].size)
-#KBar_dic['product'].size   ## 1596
-#KBar_dic['product'][0]      ## 'tsmc'
+
 
 KBar_time_list = list(KBar_dic['time'].values())
 KBar_time_list = [i.to_pydatetime() for i in KBar_time_list] ## Timestamp to datetime
 KBar_dic['time']=np.array(KBar_time_list)
 
-# KBar_time_list[0]        ## Timestamp('2022-07-01 09:01:00')
-# type(KBar_time_list[0])  ## pandas._libs.tslibs.timestamps.Timestamp
-#KBar_time_list[0].to_pydatetime() ## datetime.datetime(2022, 7, 1, 9, 1)
-#KBar_time_list[0].to_numpy()      ## numpy.datetime64('2022-07-01T09:01:00.000000000')
-#KBar_dic['time']=np.array(KBar_time_list)
-#KBar_dic['time'][80]   ## Timestamp('2022-09-01 23:02:00')
 
 KBar_low_list = list(KBar_dic['low'].values())
 KBar_dic['low']=np.array(KBar_low_list)
@@ -108,13 +93,7 @@ KBar_dic['amount']=np.array(KBar_amount_list)
 
 
 ######  (3) 改變 KBar 時間長度 (以下)  ########
-# Product_array = np.array([])
-# Time_array = np.array([])
-# Open_array = np.array([])
-# High_array = np.array([])
-# Low_array = np.array([])
-# Close_array = np.array([])
-# Volume_array = np.array([])
+
 
 Date = start_date.strftime("%Y-%m-%d")
 
@@ -130,7 +109,7 @@ Date = start_date.strftime("%Y-%m-%d")
 #KBar = indicator_f_Lo2.KBar(Date,'time',2)
 #KBar = indicator_forKBar_short.KBar(Date,cycle_duration)    ## 設定cycle_duration可以改成你想要的 KBar 週期
 
-#下拉式選單
+#下拉式選單(單一)
 #cycle_duration_options = [24, 48, 72]  # 可供選擇的時間長度，單位為小時
 #selected_cycle_duration = st.selectbox('選擇一根 K 棒的時間長度(單位:小時, 一日=24小時)', options=cycle_duration_options, index=1, format_func=lambda x: f"{x} 小時", key="KBar_duration")
 
@@ -142,13 +121,13 @@ Date = start_date.strftime("%Y-%m-%d")
 
 
 #下拉式選擇小時、分鐘
-cycle_duration_value = st.number_input('輸入一根 K 棒的時間數值', value=24, key="KBar_duration_value")
-cycle_duration_unit = st.selectbox('選擇一根 K 棒的時間單位', options=['小時', '分鐘'], key="KBar_duration_unit")
+cycle_duration_value = st.number_input('輸入一根 K 棒的時間數值(一天86400秒、1440分鐘)', value=24, key="KBar_duration_value")
+cycle_duration_unit = st.selectbox('選擇一根 K 棒的時間單位', options=['小時', '分鐘','秒'], key="KBar_duration_unit")
 
 if cycle_duration_unit == '小時':
-    cycle_duration = cycle_duration_value * 60
+    cycle_duration = cycle_duration_value * 60 *60 #小時轉秒
 else:
-    cycle_duration = cycle_duration_value
+    cycle_duration = cycle_duration_value *60      #分鐘轉秒
 
 # 使用選擇的時間長度來計算 KBar
 KBar = indicator_forKBar_short.KBar(Date, cycle_duration)  ## 設定cycle_duration可以改成你想要的 KBar 週期
