@@ -40,7 +40,7 @@ df_original = load_data('kbars_6560.pkl')
 df_original = pd.read_pickle('kbars_6560.pkl')
 
 
-#df.columns  ## Index(['Unnamed: 0', 'time', 'open', 'low', 'high', 'close', 'volume','amount'], dtype='object')
+#df.columns  ## Index(['Unnamed: 0', 'data', 'open', 'high', 'low', 'close', 'change','transaction'], dtype='object')
 # 檢查列名
 print(df_original.columns)
 
@@ -90,10 +90,10 @@ KBar_close_list = list(KBar_dic['close'].values())
 KBar_dic['close']=np.array(KBar_close_list)
 
 KBar_volume_list = list(KBar_dic['change'].values())
-KBar_dic['volume']=np.array(KBar_volume_list)
+KBar_dic['change']=np.array(KBar_volume_list)
 
 KBar_amount_list = list(KBar_dic['transaction'].values())
-KBar_dic['amount']=np.array(KBar_amount_list)
+KBar_dic['transaction']=np.array(KBar_amount_list)
 
 
 ######  (3) 改變 KBar 時間長度 (以下)  ########
@@ -142,19 +142,19 @@ KBar = indicator_forKBar_short.KBar(Date, cycle_duration)  ## 設定cycle_durati
 #KBar_dic['amount'].size    ##5585
 #KBar_dic['time'].size    ##5585
 
-for i in range(KBar_dic['time'].size):
+for i in range(KBar_dic['date'].size):
     
     #time = datetime.datetime.strptime(KBar_dic['time'][i],'%Y%m%d%H%M%S%f')
-    time = KBar_dic['time'][i]
+    time = KBar_dic['date'][i]
     #prod = KBar_dic['product'][i]
     open_price= KBar_dic['open'][i]
     close_price= KBar_dic['close'][i]
     low_price= KBar_dic['low'][i]
     high_price= KBar_dic['high'][i]
-    qty =  KBar_dic['volume'][i]
-    amount = KBar_dic['amount'][i]
+    qty =  KBar_dic['transaction'][i]
+    amount = KBar_dic['capacity'][i]
     #tag=KBar.TimeAdd(time,price,qty,prod)
-    tag=KBar.AddPrice(time, open_price, close_price, low_price, high_price, qty)
+    tag=KBar.AddPrice(date, open_price, close_price, low_price, high_price, qty)
     
     # 更新K棒才判斷，若要逐筆判斷則 註解下面兩行, 因為計算 MA是利用收盤價, 而在 KBar class 中的 "TimeAdd"函數方法中, 收盤價只是一直附加最新的 price 而已.
     #if tag != 1:
@@ -191,7 +191,7 @@ KBar_dic['open'] = KBar.TAKBar['open']
 KBar_dic['high'] =  KBar.TAKBar['high']
 KBar_dic['low'] =  KBar.TAKBar['low']
 KBar_dic['close'] =  KBar.TAKBar['close']
-KBar_dic['volume'] =  KBar.TAKBar['volume']
+KBar_dic['transaction'] =  KBar.TAKBar['transaction']
 # KBar_dic['time'].shape  ## (2814,)
 # KBar_dic['open'].shape  ## (2814,)
 # KBar_dic['high'].shape  ## (2814,)
