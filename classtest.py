@@ -16,7 +16,7 @@ import streamlit.components.v1 as stc
 ###### (1) 開始設定 ######
 html_temp = """
 		<div style="background-color:#3872fb;padding:10px;border-radius:10px">
-		<h1 style="color:white;text-align:center;">金融資料視覺化呈現 (金融看板) </h1>
+		<h1 style="color:white;text-align:center;">雙邦金融資料視覺化呈現 (金融看板) </h1>
 		<h2 style="color:white;text-align:center;">Financial Dashboard </h2>
 		</div>
 		"""
