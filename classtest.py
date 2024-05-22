@@ -153,7 +153,7 @@ for i in range(KBar_dic['date'].size):
     high_price= KBar_dic['high'][i]
     qty =  KBar_dic['transaction'][i]
     length_of_capacity = len(KBar_dic['capacity'])    
-	if i < length_of_capacity:
+    if i < length_of_capacity:
    	 amount = KBar_dic['capacity'][i]
 
     #tag=KBar.TimeAdd(time,price,qty,prod)
