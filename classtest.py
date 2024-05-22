@@ -26,7 +26,7 @@ stc.html(html_temp)
 #df = pd.read_excel("kbars_2330_2022-07-01-2022-07-31.xlsx")
 
 # ## 讀取 excel 檔
-#df_original = pd.read_excel("6560.xlsx")
+df_original = pd.read_excel("6560.xlsx")
 
 
 # ## 保存为Pickle文件:
