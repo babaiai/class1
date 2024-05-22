@@ -27,6 +27,7 @@ stc.html(html_temp)
 
 # ## 讀取 excel 檔
 df_original = pd.read_excel("6560.xlsx")
+print(df_original.head())
 
 # ## 保存为Pickle文件:
 # df_original.to_pickle('kbars_2330_2022-01-01-2022-11-18.pkl')
