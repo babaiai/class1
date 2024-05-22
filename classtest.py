@@ -127,7 +127,7 @@ Date = start_date.strftime("%Y-%m-%d")
 #下拉式選擇小時、分鐘
 cycle_duration_value = st.number_input('輸入一根 K 棒的時間數值(一天86400秒、1440分鐘)', value=24, key="KBar_duration_value")
 cycle_duration_unit = st.selectbox('選擇一根 K 棒的時間單位', options=['小時', '分鐘','秒'], key="KBar_duration_unit")
-
+length_of_capacity = len(KBar_dic['capacity'])
 if cycle_duration_unit == '小時':
     cycle_duration = cycle_duration_value * 60 *60 #小時轉秒
 else:
