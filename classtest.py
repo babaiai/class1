@@ -41,7 +41,10 @@ df_original = pd.read_pickle('kbars_6560.pkl')
 
 
 #df.columns  ## Index(['Unnamed: 0', 'time', 'open', 'low', 'high', 'close', 'volume','amount'], dtype='object')
-df_original = df_original.drop('Unnamed: 0',axis=1)
+# 檢查列名
+print(df_original.columns)
+
+#df_original = df_original.drop('Unnamed: 0',axis=1)
 #df.columns  ## Index(['time', 'open', 'low', 'high', 'close', 'volume', 'amount'], dtype='object')
 #df['time']
 #type(df['time'])  ## pandas.core.series.Series
