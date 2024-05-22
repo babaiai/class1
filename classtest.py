@@ -75,7 +75,7 @@ KBar_dic['open']=np.array(KBar_open_list)
 KBar_dic['product'] = np.repeat('tsmc', KBar_dic['open'].size)
 
 
-KBar_time_list = list(KBar_dic['time'].values())
+KBar_time_list = list(KBar_dic['date'].values())
 KBar_time_list = [i.to_pydatetime() for i in KBar_time_list] ## Timestamp to datetime
 KBar_dic['time']=np.array(KBar_time_list)
 
