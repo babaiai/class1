@@ -271,13 +271,14 @@ with st.expander("K線圖, 移動平均線"):
     # 确保 last_nan_index_MA 不是 None，且 'Time' 列和 'MA_long'、'MA_short' 列都包含有效的数据
 # 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
 # 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
+# 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
 if last_nan_index_RSI is not None and 'Time' in KBar_df.columns and 'RSI_long' in KBar_df.columns and 'RSI_short' in KBar_df.columns:
     # 确保索引 last_nan_index_RSI + 1 不超出 DataFrame 的范围
     if last_nan_index_RSI + 1 < len(KBar_df['Time']):
         fig2.add_trace(go.Candlestick(x=KBar_df['Time'],
                         open=KBar_df['Open'], high=KBar_df['High'],
                         low=KBar_df['Low'], close=KBar_df['Close'], name='K線'),
-                       secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
+                       secondary_y=True)   ## secondary_y=True 表示此图形的y轴scale是在右边而不是在左边
         
         fig2.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_RSI+1:], y=KBar_df['RSI_long'][last_nan_index_RSI+1:], mode='lines',line=dict(color='red', width=2), name=f'{LongRSIPeriod}-根 K棒 移動 RSI'), 
                         secondary_y=False)
@@ -290,8 +291,6 @@ if last_nan_index_RSI is not None and 'Time' in KBar_df.columns and 'RSI_long' i
         st.error("索引超出范围：无法绘制图形，请检查数据是否有效。")
 else:
     st.error("出现错误：无法绘制图形，请检查数据是否有效。")
-
-
 
 
 
