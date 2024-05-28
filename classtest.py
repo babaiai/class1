@@ -143,8 +143,7 @@ for i in range(KBar_dic['date'].size):
     close_price = KBar_dic['close'][i]
     low_price = KBar_dic['low'][i]
     high_price = KBar_dic['high'][i]
-    qty = KBar_dic['transaction'][i]
-    length_of_capacity = len(KBar_dic['capacity'])    
+    qty = KBar_dic['transaction'][i]  
     
     if i < length_of_capacity:
         amount = KBar_dic['capacity'][i]  # 在這裡為 amount 變數賦值
