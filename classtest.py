@@ -238,7 +238,12 @@ KBar_df['RSI_short'] = calculate_rsi(KBar_df, ShortRSIPeriod)
 KBar_df['RSI_Middle']=np.array([50]*len(KBar_dic['time']))
 
 ### 尋找最後 NAN值的位置
-last_nan_index_RSI = KBar_df['RSI_long'][::-1].index[KBar_df['RSI_long'][::-1].apply(pd.isna)][0]
+last_nan_index_RSI = KBar_df['RSI_long'][::-1].index[KBar_df['RSI_long'][::-1].apply(pd.isna)]
+if not last_nan_index_RSI.empty:
+    last_nan_index_RSI = last_nan_index_RSI[0]
+else:
+    last_nan_index_RSI = None
+
 
 
 
