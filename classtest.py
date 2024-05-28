@@ -44,14 +44,7 @@ df_original = pd.read_pickle('kbars_6560.pkl')
 # 檢查列名
 print(df_original.columns)
 
-#df_original = df_original.drop('Unnamed: 0',axis=1)
-#df.columns  ## Index(['time', 'open', 'low', 'high', 'close', 'volume', 'amount'], dtype='object')
-#df['time']
-#type(df['time'])  ## pandas.core.series.Series
-#df['time'][11]
-#df.head()
-#df.tail()
-#type(df['time'][0])
+
 
 
 ##### 選擇資料區間
@@ -138,53 +131,35 @@ KBar = indicator_forKBar_short.KBar(Date, cycle_duration)  ## 設定cycle_durati
 
 
 
-#KBar_dic['amount'].shape   ##(5585,)
-#KBar_dic['amount'].size    ##5585
-#KBar_dic['time'].size    ##5585
+amount = None  # 在迴圈外部初始化 amount 變數
 
 for i in range(KBar_dic['date'].size):
     
-    #time = datetime.datetime.strptime(KBar_dic['time'][i],'%Y%m%d%H%M%S%f')
     time = KBar_dic['date'][i]
-    #prod = KBar_dic['product'][i]
-    open_price= KBar_dic['open'][i]
-    close_price= KBar_dic['close'][i]
-    low_price= KBar_dic['low'][i]
-    high_price= KBar_dic['high'][i]
-    qty =  KBar_dic['transaction'][i]
+    open_price = KBar_dic['open'][i]
+    close_price = KBar_dic['close'][i]
+    low_price = KBar_dic['low'][i]
+    high_price = KBar_dic['high'][i]
+    qty = KBar_dic['transaction'][i]
     length_of_capacity = len(KBar_dic['capacity'])    
+    
     if i < length_of_capacity:
-   	 amount = KBar_dic['capacity'][i]
+        amount = KBar_dic['capacity'][i]  # 在這裡為 amount 變數賦值
+
+    # 在這裡使用 amount 變數進行相應的操作
+
 
     #tag=KBar.TimeAdd(time,price,qty,prod)
     tag=KBar.AddPrice(date, open_price, close_price, low_price, high_price, qty)
     
-    # 更新K棒才判斷，若要逐筆判斷則 註解下面兩行, 因為計算 MA是利用收盤價, 而在 KBar class 中的 "TimeAdd"函數方法中, 收盤價只是一直附加最新的 price 而已.
-    #if tag != 1:
-        #continue
-    #print(KBar.Time,KBar.GetOpen(),KBar.GetHigh(),KBar.GetLow(),KBar.GetClose(),KBar.GetVolume()) 
+
     
     
         
-# #type(KBar.Time[1:-1]) ##numpy.ndarray       
-# Time_array =  np.append(Time_array, KBar.Time[1:-1])    
-# Open_array =  np.append(Open_array,KBar.Open[1:-1])
-# High_array =  np.append(High_array,KBar.High[1:-1])
-# Low_array =  np.append(Low_array,KBar.Low[1:-1])
-# Close_array =  np.append(Close_array,KBar.Close[1:-1])
-# Volume_array =  np.append(Volume_array,KBar.Volume[1:-1])
-# Product_array = np.append(Product_array,KBar.Prod[1:-1])
+
 
 KBar_dic = {}
 
-# ## 形成 KBar 字典:
-# KBar_dic['time'] =  Time_array   
-# KBar_dic['product'] =  Product_array
-# KBar_dic['open'] =  Open_array
-# KBar_dic['high'] =  High_array
-# KBar_dic['low'] =  Low_array
-# KBar_dic['close'] =  Close_array
-# KBar_dic['volume'] =  Volume_array
 
  ## 形成 KBar 字典 (新週期的):
 KBar_dic['time'] =  KBar.TAKBar['time']   
@@ -195,14 +170,6 @@ KBar_dic['high'] =  KBar.TAKBar['high']
 KBar_dic['low'] =  KBar.TAKBar['low']
 KBar_dic['close'] =  KBar.TAKBar['close']
 KBar_dic['transaction'] =  KBar.TAKBar['transaction']
-# KBar_dic['time'].shape  ## (2814,)
-# KBar_dic['open'].shape  ## (2814,)
-# KBar_dic['high'].shape  ## (2814,)
-# KBar_dic['low'].shape  ## (2814,)
-# KBar_dic['close'].shape  ## (2814,)
-# KBar_dic['volume'].shape  ## (2814,)
-#KBar_dic['time'][536]
-######  改變 KBar 時間長度 (以上)  ########
 
 
 
@@ -258,20 +225,7 @@ KBar_df['RSI_Middle']=np.array([50]*len(KBar_dic['time']))
 last_nan_index_RSI = KBar_df['RSI_long'][::-1].index[KBar_df['RSI_long'][::-1].apply(pd.isna)][0]
 
 
-# #### 逆勢策略
-# ### 建立部位管理物件
-# OrderRecord=Record() 
-# ### 計算 RSI指標, 天花板與地板
-# RSIPeriod=5
-# Ceil=80
-# Floor=20
-# MoveStopLoss=30
-# KBar_dic['RSI']=RSI(KBar_dic,timeperiod=RSIPeriod)
-# KBar_dic['Ceil']=np.array([Ceil]*len(KBar_dic['time']))
-# KBar_dic['Floor']=np.array([Floor]*len(KBar_dic['time']))
 
-# ### 將K線 Dictionary 轉換成 Dataframe
-# KBar_RSI_df=pd.DataFrame(KBar_dic)
 
 
 ###### (5) 將 Dataframe 欄位名稱轉換  ###### 
