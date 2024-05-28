@@ -205,7 +205,12 @@ KBar_df['MA_long'] = KBar_df['close'].rolling(window=LongMAPeriod).mean()
 KBar_df['MA_short'] = KBar_df['close'].rolling(window=ShortMAPeriod).mean()
 
 #### 尋找最後 NAN值的位置
-last_nan_index_MA = KBar_df['MA_long'][::-1].index[KBar_df['MA_long'][::-1].apply(pd.isna)][0]
+last_nan_index_MA = KBar_df['MA_long'][::-1].index[KBar_df['MA_long'][::-1].apply(pd.isna)]
+if not last_nan_index_MA.empty:
+    last_nan_index_MA = last_nan_index_MA[0]
+else:
+    last_nan_index_MA = None
+
 
 
 
