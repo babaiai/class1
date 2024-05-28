@@ -137,22 +137,25 @@ KBar = indicator_forKBar_short.KBar(Date, cycle_duration)  ## 設定cycle_durati
 amount = None  # 在迴圈外部初始化 amount 變數
 
 for i in range(KBar_dic['date'].size):
-    
     time = KBar_dic['date'][i]
     open_price = KBar_dic['open'][i]
     close_price = KBar_dic['close'][i]
     low_price = KBar_dic['low'][i]
     high_price = KBar_dic['high'][i]
-    qty = KBar_dic['transaction'][i]  
+    qty = KBar_dic['transaction'][i]
+    length_of_capacity = len(KBar_dic['capacity'])    
     
     if i < length_of_capacity:
         amount = KBar_dic['capacity'][i]  # 在這裡為 amount 變數賦值
 
     # 在這裡使用 amount 變數進行相應的操作
 
+    # 確保 KBar 實例被正確初始化，並調用 AddPrice 方法
+    if 'KBar' in locals() and hasattr(KBar, 'AddPrice'):
+        tag = KBar.AddPrice(time, open_price, close_price, low_price, high_price, qty)
+    else:
+        print("KBar 實例未正確初始化或 AddPrice 方法不存在")
 
-    #tag=KBar.TimeAdd(time,price,qty,prod)
-    tag=KBar.AddPrice(time, open_price, close_price, low_price, high_price, qty)
     
 
     
