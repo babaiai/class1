@@ -267,10 +267,6 @@ with st.expander("K線圖, 移動平均線"):
                    secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
     
     #### include a go.Bar trace for volumes
-    # 确保 last_nan_index_MA 不是 None，且 'Time' 列和 'MA_long'、'MA_short' 列都包含有效的数据
-# 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
-# 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
-# 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
 # 确保 last_nan_index_MA 不是 None，且 'Time' 列和 'MA_long'、'MA_short' 列都包含有效的数据
 if last_nan_index_MA is not None and 'Time' in KBar_df.columns and 'MA_long' in KBar_df.columns and 'MA_short' in KBar_df.columns:
     fig1.add_trace(go.Bar(x=KBar_df['Time'], y=KBar_df['Volume'], name='成交量', marker=dict(color='black')), secondary_y=False)
