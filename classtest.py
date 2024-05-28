@@ -161,12 +161,6 @@ def AddPrice(self, time, open_price, close_price, low_price, high_price, qty):
 
     
     
-    
-
-    
-    
-        
-
 
 KBar_dic = {}
 
@@ -273,11 +267,11 @@ with st.expander("K線圖, 移動平均線"):
                    secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
     
     #### include a go.Bar trace for volumes
-    fig1.add_trace(go.Bar(x=KBar_df['Date'], y=KBar_df['Transaction'], name='成交量', marker=dict(color='black')), secondary_y=False)
+    fig1.add_trace(go.Bar(x=KBar_df['Time'], y=KBar_df['Volume'], name='成交量', marker=dict(color='black')), secondary_y=False)
 
     fig1.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_MA+1:], y=KBar_df['MA_long'][last_nan_index_MA+1:], mode='lines',line=dict(color='orange', width=2), name=f'{LongMAPeriod}-根 K棒 移動平均線'), 
                   secondary_y=True)
-    fig1.add_trace(go.Scatter(x=KBar_df['time'][last_nan_index_MA+1:], y=KBar_df['MA_short'][last_nan_index_MA+1:], mode='lines',line=dict(color='pink', width=2), name=f'{ShortMAPeriod}-根 K棒 移動平均線'), 
+    fig1.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_MA+1:], y=KBar_df['MA_short'][last_nan_index_MA+1:], mode='lines',line=dict(color='pink', width=2), name=f'{ShortMAPeriod}-根 K棒 移動平均線'), 
                   secondary_y=True)
     
     fig1.layout.yaxis2.showgrid=True
