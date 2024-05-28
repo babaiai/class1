@@ -166,14 +166,14 @@ KBar_dic = {}
 
 
  ## 形成 KBar 字典 (新週期的):
-KBar_dic['time'] =  KBar.TAKBar['date']   
+KBar_dic['time'] =  KBar.TAKBar['time']   
 #KBar_dic['product'] =  KBar.TAKBar['product']
 KBar_dic['product'] = np.repeat('tsmc', KBar_dic['time'].size)
 KBar_dic['open'] = KBar.TAKBar['open']
 KBar_dic['high'] =  KBar.TAKBar['high']
 KBar_dic['low'] =  KBar.TAKBar['low']
 KBar_dic['close'] =  KBar.TAKBar['close']
-KBar_dic['transaction'] = KBar.TAKBar.get(['transaction'])
+KBar_dic['volume'] = KBar.TAKBar.get(['volume'])
 
 
 
