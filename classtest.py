@@ -272,25 +272,18 @@ with st.expander("K線圖, 移動平均線"):
 # 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
 # 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
 # 确保 last_nan_index_RSI 不是 None，且 'Time' 列和 'RSI_long'、'RSI_short' 列都包含有效的数据
-if last_nan_index_RSI is not None and 'Time' in KBar_df.columns and 'RSI_long' in KBar_df.columns and 'RSI_short' in KBar_df.columns:
-    # 确保索引 last_nan_index_RSI + 1 不超出 DataFrame 的范围
-    if last_nan_index_RSI + 1 < len(KBar_df['Time']):
-        fig2.add_trace(go.Candlestick(x=KBar_df['Time'],
-                        open=KBar_df['Open'], high=KBar_df['High'],
-                        low=KBar_df['Low'], close=KBar_df['Close'], name='K線'),
-                       secondary_y=True)   ## secondary_y=True 表示此图形的y轴scale是在右边而不是在左边
-        
-        fig2.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_RSI+1:], y=KBar_df['RSI_long'][last_nan_index_RSI+1:], mode='lines',line=dict(color='red', width=2), name=f'{LongRSIPeriod}-根 K棒 移動 RSI'), 
-                        secondary_y=False)
-        fig2.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_RSI+1:], y=KBar_df['RSI_short'][last_nan_index_RSI+1:], mode='lines',line=dict(color='blue', width=2), name=f'{ShortRSIPeriod}-根 K棒 移動 RSI'), 
-                        secondary_y=False)
-
-        fig2.layout.yaxis2.showgrid=True
-        st.plotly_chart(fig2, use_container_width=True)
-    else:
-        st.error("索引超出范围：无法绘制图形，请检查数据是否有效。")
+# 确保 last_nan_index_MA 不是 None，且 'Time' 列和 'MA_long'、'MA_short' 列都包含有效的数据
+if last_nan_index_MA is not None and 'Time' in KBar_df.columns and 'MA_long' in KBar_df.columns and 'MA_short' in KBar_df.columns:
+    fig1.add_trace(go.Bar(x=KBar_df['Time'], y=KBar_df['Volume'], name='成交量', marker=dict(color='black')), secondary_y=False)
+    fig1.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_MA+1:], y=KBar_df['MA_long'][last_nan_index_MA+1:], mode='lines', line=dict(color='orange', width=2), name=f'{LongMAPeriod}-根 K棒 移動平均線'), 
+                    secondary_y=True)
+    fig1.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_MA+1:], y=KBar_df['MA_short'][last_nan_index_MA+1:], mode='lines', line=dict(color='pink', width=2), name=f'{ShortMAPeriod}-根 K棒 移動平均線'), 
+                    secondary_y=True)
+    fig1.layout.yaxis2.showgrid = True
+    st.plotly_chart(fig1, use_container_width=True)
 else:
     st.error("出现错误：无法绘制图形，请检查数据是否有效。")
+
 
 
 
