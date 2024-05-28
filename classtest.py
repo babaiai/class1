@@ -88,6 +88,9 @@ KBar_dic['change']=np.array(KBar_volume_list)
 KBar_amount_list = list(KBar_dic['transaction'].values())
 KBar_dic['transaction']=np.array(KBar_amount_list)
 
+KBar_capacity_list = list(KBar_dic['capacity'].values())
+KBar_dic['capacity']=np.array(KBar_capacity_list)
+
 
 ######  (3) 改變 KBar 時間長度 (以下)  ########
 
