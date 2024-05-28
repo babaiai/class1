@@ -166,7 +166,7 @@ KBar_dic = {}
 
 
  ## 形成 KBar 字典 (新週期的):
-KBar_dic['time'] =  KBar.TAKBar['dime']   
+KBar_dic['time'] =  KBar.TAKBar['date']   
 #KBar_dic['product'] =  KBar.TAKBar['product']
 KBar_dic['product'] = np.repeat('tsmc', KBar_dic['time'].size)
 KBar_dic['open'] = KBar.TAKBar['open']
