@@ -173,7 +173,8 @@ KBar_dic['open'] = KBar.TAKBar['open']
 KBar_dic['high'] =  KBar.TAKBar['high']
 KBar_dic['low'] =  KBar.TAKBar['low']
 KBar_dic['close'] =  KBar.TAKBar['close']
-KBar_dic['volume'] = KBar.TAKBar('volume')
+KBar_dic['volume'] = KBar.TAKBar['volume']
+
 
 
 
