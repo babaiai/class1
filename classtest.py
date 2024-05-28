@@ -151,14 +151,16 @@ for i in range(KBar_dic['date'].size):
     # 在這裡使用 amount 變數進行相應的操作
 
     # 確保 KBar 實例被正確初始化，並調用 AddPrice 方法
- def AddPrice(self, time, open_price, close_price, low_price, high_price, qty):
+def AddPrice(self, time, open_price, close_price, low_price, high_price, qty):
     # 檢查 TAKBar 是否已經初始化
     if not hasattr(self, 'TAKBar'):
         print("TAKBar 尚未初始化")
         return
-    
-    # 在這裡進行其他操作，例如更新 TAKBar 的值
+    # 在這裡可以加入其他操作代碼
+    pass
 
+    
+    
     
 
     
