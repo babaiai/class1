@@ -248,6 +248,7 @@ KBar_df.columns = [ i[0].upper()+i[1:] for i in KBar_df.columns ]
 
 
 ###### (6) 畫圖 ######
+import plotly.graph_objs as go
 fig = go.Figure()
 fig.add_trace(go.Candlestick(
     x=KBar_df['TIME'],  # X 轴数据
