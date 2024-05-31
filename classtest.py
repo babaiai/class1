@@ -152,7 +152,7 @@ fig = go.Figure()
 
 # 绘制 K 线图
 fig.add_trace(go.Candlestick(
-    x=KBar_df.index,  # X 轴数据
+    x=KBar_df['date'],  # X 轴数据改为使用日期时间列
     open=KBar_df['open'],  # 开盘价
     high=KBar_df['high'],  # 最高价
     low=KBar_df['low'],    # 最低价
@@ -162,7 +162,7 @@ fig.add_trace(go.Candlestick(
 
 # 添加移动平均线
 fig.add_trace(go.Scatter(
-    x=KBar_df.index,  # X 轴数据
+    x=KBar_df['date'],  # X 轴数据改为使用日期时间列
     y=KBar_df['MA_long'],  # 移动平均线数据
     mode='lines',  # 绘制模式为线
     name='长移动平均线',  # 图例名称
@@ -170,7 +170,7 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.add_trace(go.Scatter(
-    x=KBar_df.index,  # X 轴数据
+    x=KBar_df['date'],  # X 轴数据改为使用日期时间列
     y=KBar_df['MA_short'],  # 移动平均线数据
     mode='lines',  # 绘制模式为线
     name='短移动平均线',  # 图例名称
