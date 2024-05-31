@@ -117,5 +117,73 @@ KBar_dic['volume'] = KBar.TAKBar['volume']
 
 ##### (4) 計算各種技術指標 ######
 ##### 將K線 Dictionary 轉換成 Dataframe
-KBar_df =
+KBar_df = pd.DataFrame(KBar_dic)
 
+#####  (i) 移動平均線策略   #####
+LongMAPeriod=st.slider('選擇一個整數', 0, 100, 10)
+ShortMAPeriod=st.slider('選擇一個整數', 0, 100, 2)
+
+#### 計算長短移動平均線
+KBar_df['MA_long'] = KBar_df['close'].rolling(window=LongMAPeriod).mean()
+KBar_df['MA_short'] = KBar_df['close'].rolling(window=ShortMAPeriod).mean()
+
+#####  (ii) RSI 策略   #####
+LongRSIPeriod=st.slider('選擇一個整數', 0, 1000, 10)
+ShortRSIPeriod=st.slider('選擇一個整數', 0, 1000, 2)
+
+def calculate_rsi(df, period=14):
+    delta = df['close'].diff()
+    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+    rs = gain / loss
+    rsi = 100 - (100 / (1 + rs))
+    return rsi
+
+KBar_df['RSI_long'] = calculate_rsi(KBar_df, LongRSIPeriod)
+KBar_df['RSI_short'] = calculate_rsi(KBar_df, ShortRSIPeriod)
+KBar_df['RSI_Middle']=np.array([50]*len(KBar_dic['time']))
+
+##### (5) 將 Dataframe 欄位名稱轉換  ###### 
+KBar_df.columns = [ i[0].upper()+i[1:] for i in KBar_df.columns ]
+
+##### (6) 畫圖 ######
+# 创建 Plotly Figure 对象
+fig = go.Figure()
+
+# 绘制 K 线图
+fig.add_trace(go.Candlestick(
+    x=KBar_df.index,  # X 轴数据
+    open=KBar_df['open'],  # 开盘价
+    high=KBar_df['high'],  # 最高价
+    low=KBar_df['low'],    # 最低价
+    close=KBar_df['close'],  # 收盘价
+    name='K线图'  # 图例名称
+))
+
+# 添加移动平均线
+fig.add_trace(go.Scatter(
+    x=KBar_df.index,  # X 轴数据
+    y=KBar_df['MA_long'],  # 移动平均线数据
+    mode='lines',  # 绘制模式为线
+    name='长移动平均线',  # 图例名称
+    line=dict(color='blue', width=2)  # 线条颜色和宽度
+))
+
+fig.add_trace(go.Scatter(
+    x=KBar_df.index,  # X 轴数据
+    y=KBar_df['MA_short'],  # 移动平均线数据
+    mode='lines',  # 绘制模式为线
+    name='短移动平均线',  # 图例名称
+    line=dict(color='red', width=2)  # 线条颜色和宽度
+))
+
+# 设置图表布局
+fig.update_layout(
+    title='K线图及移动平均线',  # 图表标题
+    xaxis_title='时间',  # X 轴标题
+    yaxis_title='价格',  # Y 轴标题
+    xaxis_rangeslider_visible=False,  # 隐藏 X 轴的滑动条
+)
+
+# 在 Streamlit 中显示图表
+st.plotly_chart(fig)
