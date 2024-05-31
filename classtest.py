@@ -248,20 +248,7 @@ KBar_df.columns = [ i[0].upper()+i[1:] for i in KBar_df.columns ]
 
 
 ###### (6) 畫圖 ######
-# 載入必要模組
-import datetime
-import numpy as np
-import pandas as pd
-import streamlit as st
-import plotly.graph_objs as go
-
-# 讀取 KBar DataFrame
-# 这部分和你提供的代码一样
-
-# 创建 Plotly Figure 对象
 fig = go.Figure()
-
-# 绘制 K 线图
 fig.add_trace(go.Candlestick(
     x=KBar_df['TIME'],  # X 轴数据
     open=KBar_df['OPEN'],  # 开盘价
@@ -271,7 +258,6 @@ fig.add_trace(go.Candlestick(
     name='K线图'  # 图例名称
 ))
 
-# 添加移动平均线
 fig.add_trace(go.Scatter(
     x=KBar_df['TIME'],  # X 轴数据
     y=KBar_df['MA_LONG'],  # 移动平均线数据
@@ -288,7 +274,6 @@ fig.add_trace(go.Scatter(
     line=dict(color='red', width=2)  # 线条颜色和宽度
 ))
 
-# 设置图表布局
 fig.update_layout(
     title='K线图及移动平均线',  # 图表标题
     xaxis_title='时间',  # X 轴标题
