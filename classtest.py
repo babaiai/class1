@@ -248,58 +248,57 @@ KBar_df.columns = [ i[0].upper()+i[1:] for i in KBar_df.columns ]
 
 
 ###### (6) 畫圖 ######
-st.subheader("畫圖")
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+# 載入必要模組
+import datetime
+import numpy as np
 import pandas as pd
-#from plotly.offline import plot
-import plotly.offline as pyoff
+import streamlit as st
+import plotly.graph_objs as go
 
+# 讀取 KBar DataFrame
+# 这部分和你提供的代码一样
 
-##### K線圖, 移動平均線 MA
-with st.expander("K線圖, 移動平均線"):
-    fig1 = make_subplots(specs=[[{"secondary_y": True}]])
-    
-    #### include candlestick with rangeselector
-    fig1.add_trace(go.Candlestick(x=KBar_df['Time'],
-                    open=KBar_df['Open'], high=KBar_df['High'],
-                    low=KBar_df['Low'], close=KBar_df['Close'], name='K線'),
-                   secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
-    
-    #### include a go.Bar trace for volumes
-# 确保 last_nan_index_MA 不是 None，且 'Time' 列和 'MA_long'、'MA_short' 列都包含有效的数据
-if last_nan_index_MA is not None and 'Time' in KBar_df.columns and 'MA_long' in KBar_df.columns and 'MA_short' in KBar_df.columns:
-    fig1.add_trace(go.Bar(x=KBar_df['Time'], y=KBar_df['Volume'], name='成交量', marker=dict(color='black')), secondary_y=False)
-    fig1.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_MA+1:], y=KBar_df['MA_long'][last_nan_index_MA+1:], mode='lines', line=dict(color='orange', width=2), name=f'{LongMAPeriod}-根 K棒 移動平均線'), 
-                    secondary_y=True)
-    fig1.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_MA+1:], y=KBar_df['MA_short'][last_nan_index_MA+1:], mode='lines', line=dict(color='pink', width=2), name=f'{ShortMAPeriod}-根 K棒 移動平均線'), 
-                    secondary_y=True)
-    fig1.layout.yaxis2.showgrid = True
-    st.plotly_chart(fig1, use_container_width=True)
-else:
-    st.error("出现错误：无法绘制图形，请检查数据是否有效。")
+# 创建 Plotly Figure 对象
+fig = go.Figure()
 
+# 绘制 K 线图
+fig.add_trace(go.Candlestick(
+    x=KBar_df['TIME'],  # X 轴数据
+    open=KBar_df['OPEN'],  # 开盘价
+    high=KBar_df['HIGH'],  # 最高价
+    low=KBar_df['LOW'],    # 最低价
+    close=KBar_df['CLOSE'],  # 收盘价
+    name='K线图'  # 图例名称
+))
 
+# 添加移动平均线
+fig.add_trace(go.Scatter(
+    x=KBar_df['TIME'],  # X 轴数据
+    y=KBar_df['MA_LONG'],  # 移动平均线数据
+    mode='lines',  # 绘制模式为线
+    name='长移动平均线',  # 图例名称
+    line=dict(color='blue', width=2)  # 线条颜色和宽度
+))
 
+fig.add_trace(go.Scatter(
+    x=KBar_df['TIME'],  # X 轴数据
+    y=KBar_df['MA_SHORT'],  # 移动平均线数据
+    mode='lines',  # 绘制模式为线
+    name='短移动平均线',  # 图例名称
+    line=dict(color='red', width=2)  # 线条颜色和宽度
+))
 
-##### K線圖, RSI
-with st.expander("K線圖, 長短 RSI"):
-    fig2 = make_subplots(specs=[[{"secondary_y": True}]])
-    #### include candlestick with rangeselector
-    fig2.add_trace(go.Candlestick(x=KBar_df['Time'],
-                    open=KBar_df['Open'], high=KBar_df['High'],
-                    low=KBar_df['Low'], close=KBar_df['Close'], name='K線'),
-                   secondary_y=True)   ## secondary_y=True 表示此圖形的y軸scale是在右邊而不是在左邊
-    
-    if last_nan_index_RSI is not None and last_nan_index_RSI + 1 < len(KBar_df['Time']):
-        fig2.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_RSI+1:], y=KBar_df['RSI_long'][last_nan_index_RSI+1:], mode='lines', line=dict(color='red', width=2), name=f'{LongRSIPeriod}-根 K棒 移動 RSI'), secondary_y=False)
+# 设置图表布局
+fig.update_layout(
+    title='K线图及移动平均线',  # 图表标题
+    xaxis_title='时间',  # X 轴标题
+    yaxis_title='价格',  # Y 轴标题
+    xaxis_rangeslider_visible=False,  # 隐藏 X 轴的滑动条
+)
 
-    if last_nan_index_RSI is not None and last_nan_index_RSI + 1 < len(KBar_df['Time']):
-        fig2.add_trace(go.Scatter(x=KBar_df['Time'][last_nan_index_RSI+1:], y=KBar_df['RSI_short'][last_nan_index_RSI+1:], mode='lines', line=dict(color='blue', width=2), name=f'{ShortRSIPeriod}-根 K棒 移動 RSI'), secondary_y=False)
+# 在 Streamlit 中显示图表
+st.plotly_chart(fig)
 
-    
-    fig2.layout.yaxis2.showgrid=True
-    st.plotly_chart(fig2, use_container_width=True)
 
 
 
