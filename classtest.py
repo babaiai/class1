@@ -147,43 +147,47 @@ KBar_df['RSI_Middle']=np.array([50]*len(KBar_dic['time']))
 KBar_df.columns = [ i[0].upper()+i[1:] for i in KBar_df.columns ]
 
 ##### (6) 畫圖 ######
-# 创建 Plotly Figure 对象
+import plotly.graph_objects as go
+
+# 绘制K线图和移动平均线（MA）
 fig = go.Figure()
 
-# 绘制 K 线图
-fig.add_trace(go.Candlestick(
-    x=KBar_df['date'],  # X 轴数据改为使用日期时间列
-    open=KBar_df['open'],  # 开盘价
-    high=KBar_df['high'],  # 最高价
-    low=KBar_df['low'],    # 最低价
-    close=KBar_df['close'],  # 收盘价
-    name='K线图'  # 图例名称
-))
+# 添加K线
+fig.add_trace(go.Candlestick(x=KBar_df['TIME'],
+                open=KBar_df['OPEN'],
+                high=KBar_df['HIGH'],
+                low=KBar_df['LOW'],
+                close=KBar_df['CLOSE'], name='K线'))
 
-# 添加移动平均线
-fig.add_trace(go.Scatter(
-    x=KBar_df['date'],  # X 轴数据改为使用日期时间列
-    y=KBar_df['MA_long'],  # 移动平均线数据
-    mode='lines',  # 绘制模式为线
-    name='长移动平均线',  # 图例名称
-    line=dict(color='blue', width=2)  # 线条颜色和宽度
-))
+# 添加长期移动平均线
+fig.add_trace(go.Scatter(x=KBar_df['TIME'], y=KBar_df['MA_LONG'], mode='lines', name='长期移动平均线'))
 
-fig.add_trace(go.Scatter(
-    x=KBar_df['date'],  # X 轴数据改为使用日期时间列
-    y=KBar_df['MA_short'],  # 移动平均线数据
-    mode='lines',  # 绘制模式为线
-    name='短移动平均线',  # 图例名称
-    line=dict(color='red', width=2)  # 线条颜色和宽度
-))
+# 添加短期移动平均线
+fig.add_trace(go.Scatter(x=KBar_df['TIME'], y=KBar_df['MA_SHORT'], mode='lines', name='短期移动平均线'))
 
-# 设置图表布局
-fig.update_layout(
-    title='K线图及移动平均线',  # 图表标题
-    xaxis_title='时间',  # X 轴标题
-    yaxis_title='价格',  # Y 轴标题
-    xaxis_rangeslider_visible=False,  # 隐藏 X 轴的滑动条
-)
+# 更新图表布局
+fig.update_layout(title='K线图和移动平均线',
+                   xaxis_title='时间',
+                   yaxis_title='价格',
+                   template='plotly_dark')
 
-# 在 Streamlit 中显示图表
+# 显示图表
 st.plotly_chart(fig)
+
+# 绘制RSI图表
+fig_rsi = go.Figure()
+
+# 添加RSI
+fig_rsi.add_trace(go.Scatter(x=KBar_df['TIME'], y=KBar_df['RSI_LONG'], mode='lines', name='长期RSI'))
+fig_rsi.add_trace(go.Scatter(x=KBar_df['TIME'], y=KBar_df['RSI_SHORT'], mode='lines', name='短期RSI'))
+fig_rsi.add_trace(go.Scatter(x=KBar_df['TIME'], y=KBar_df['RSI_MIDDLE'], mode='lines', name='RSI中间值'))
+
+# 更新图表布局
+fig_rsi.update_layout(title='RSI指标',
+                      xaxis_title='时间',
+                      yaxis_title='RSI值',
+                      template='plotly_dark')
+
+# 显示RSI图表
+st.plotly_chart(fig_rsi)
+
